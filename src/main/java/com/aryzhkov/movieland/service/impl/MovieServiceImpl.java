@@ -2,9 +2,7 @@ package com.aryzhkov.movieland.service.impl;
 
 import com.aryzhkov.movieland.dao.MovieDao;
 import com.aryzhkov.movieland.entity.Movie;
-import com.aryzhkov.movieland.entity.dto.MovieDTO;
 import com.aryzhkov.movieland.service.MovieService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

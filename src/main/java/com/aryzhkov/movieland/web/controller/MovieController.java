@@ -1,4 +1,4 @@
-package com.aryzhkov.movieland.controller;
+package com.aryzhkov.movieland.web.controller;
 
 import com.aryzhkov.movieland.entity.dto.MovieDTO;
 import com.aryzhkov.movieland.service.MovieService;
