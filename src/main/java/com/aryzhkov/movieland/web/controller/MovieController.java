@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/v1")
+@RequestMapping(value = "/movie")
 @RequiredArgsConstructor
 public class MovieController {
 
@@ -20,7 +20,7 @@ public class MovieController {
 
     private final MovieDTOConverter movieDTOConverter;
 
-    @GetMapping(path = "/movie", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<MovieDTO> getAll() {
         return movieDTOConverter.convert(movieService.getAll());
     }

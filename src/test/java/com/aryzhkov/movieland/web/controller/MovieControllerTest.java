@@ -2,6 +2,7 @@ package com.aryzhkov.movieland.web.controller;
 
 import com.aryzhkov.movieland.entity.Movie;
 import com.aryzhkov.movieland.service.MovieService;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -19,28 +20,33 @@ import java.util.Arrays;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.when;
 
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({"/test-context.xml"})
+@ContextConfiguration(locations = {"classpath:test-context.xml", "file:src/main/webapp/WEB-INF/movieland-servlet.xml","classpath:spring/app-context.xml"})
 @WebAppConfiguration
 public class MovieControllerTest {
 
+    private MockMvc mockMvc;
+
+    @Qualifier("movieService")
     @Autowired
-    @Qualifier("movieServiceMock")
     private MovieService movieServiceMock;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
 
+    @Before
+    public void setUp() {
+        Mockito.reset(movieServiceMock);
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+    }
+
     @Test
     public void testGetAll() throws Exception {
-        Mockito.reset(movieServiceMock);
-        MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-
         Movie movie = new Movie();
 
         movie.setId(1);
