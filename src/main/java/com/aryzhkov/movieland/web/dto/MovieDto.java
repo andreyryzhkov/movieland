@@ -1,11 +1,11 @@
-package com.aryzhkov.movieland.entity.dto;
+package com.aryzhkov.movieland.web.dto;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class MovieDTO {
+public class MovieDto {
     private int id;
     private String nameNative;
     private String nameRussian;

@@ -1,8 +1,8 @@
 package com.aryzhkov.movieland.web.controller;
 
-import com.aryzhkov.movieland.entity.dto.MovieDTO;
+import com.aryzhkov.movieland.web.dto.MovieDto;
 import com.aryzhkov.movieland.service.MovieService;
-import com.aryzhkov.movieland.service.util.MovieDTOConverter;
+import com.aryzhkov.movieland.service.util.MovieDtoConverterImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,10 +18,10 @@ public class MovieController {
 
     private final MovieService movieService;
 
-    private final MovieDTOConverter movieDTOConverter;
+    private final MovieDtoConverterImpl movieDTOConverter;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List<MovieDTO> getAll() {
+    public List<MovieDto> getAll() {
         return movieDTOConverter.convert(movieService.getAll());
     }
 }

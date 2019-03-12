@@ -12,8 +12,8 @@ import java.util.List;
 @Repository
 public class JdbcMovieDao implements MovieDao {
 
-    private static final String SELECT_ALL_MOVIE = "SELECT \"MOVIE_ID\", \"NATIVE_NAME\", \"RUSSIAN_NAME\"," +
-            "\"RELEASE_YEAR\", \"DESCRIPTION\", \"RATING\", \"PRICE\", \"CURRENCY\", \"PICTURE_PATH\" FROM movieland.\"MOVIE\"";
+    private static final String SELECT_ALL_MOVIE = "SELECT movie_id, native_name, russian_name, " +
+            "release_year, description, rating, price, currency, picture_path FROM movieland.movie";
 
     private static final MovieRowMapper MOVIE_ROW_MAPPER = new MovieRowMapper();
 
