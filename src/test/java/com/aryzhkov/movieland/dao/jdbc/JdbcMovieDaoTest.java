@@ -25,7 +25,19 @@ public class JdbcMovieDaoTest {
             assertNotEquals(movie.getId(), 0);
             assertNotNull(movie.getNameNative());
             assertNotEquals(movie.getPrice(), 0);
-            assertNotEquals(movie.getYearOfRelease(),"0");
+            assertNotEquals(movie.getYearOfRelease(), "0");
         }
+    }
+
+    @Test
+    public void testGetRandom() {
+        List<Movie> movies = jdbcMovieDao.getRandom();
+        for (Movie movie : movies) {
+            assertNotEquals(movie.getId(), 0);
+            assertNotNull(movie.getNameNative());
+            assertNotEquals(movie.getPrice(), 0);
+            assertNotEquals(movie.getYearOfRelease(), "0");
+        }
+        assertEquals(3, movies.size());
     }
 }

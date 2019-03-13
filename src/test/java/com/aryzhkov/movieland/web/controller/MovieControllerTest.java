@@ -26,11 +26,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:test-context.xml", "file:src/main/webapp/WEB-INF/movieland-servlet.xml","classpath:spring/app-context.xml"})
+@ContextConfiguration(locations = {"classpath:test-context.xml", "file:src/main/webapp/WEB-INF/movieland-servlet.xml", "classpath:spring/app-context.xml"})
 @WebAppConfiguration
 public class MovieControllerTest {
 
     private MockMvc mockMvc;
+
+    private Movie movie = new Movie();
 
     @Qualifier("movieService")
     @Autowired
@@ -43,11 +45,6 @@ public class MovieControllerTest {
     public void setUp() {
         Mockito.reset(movieServiceMock);
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-    }
-
-    @Test
-    public void testGetAll() throws Exception {
-        Movie movie = new Movie();
 
         movie.setId(1);
         movie.setNameNative("Moon");
@@ -56,10 +53,30 @@ public class MovieControllerTest {
         movie.setPrice(10.01);
         movie.setYearOfRelease("1994");
         movie.setPicturePath("http:/path.html");
+    }
 
+    @Test
+    public void testGetAll() throws Exception {
         when(movieServiceMock.getAll()).thenReturn(Arrays.asList(movie));
 
         mockMvc.perform(get("/movie"))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].id", is(1)))
+                .andExpect(jsonPath("$[0].nameNative", is("Moon")))
+                .andExpect(jsonPath("$[0].nameRussian", is("Луна")))
+                .andExpect(jsonPath("$[0].price", is(10.01)))
+                .andExpect(jsonPath("$[0].rating", is(9.8)))
+                .andExpect(jsonPath("$[0].yearOfRelease", is("1994")))
+                .andExpect(jsonPath("$[0].picturePath", is("http:/path.html")));
+    }
+
+    @Test
+    public void testRandom() throws Exception {
+        when(movieServiceMock.getRandom()).thenReturn(Arrays.asList(movie));
+
+        mockMvc.perform(get("/movie/random"))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
