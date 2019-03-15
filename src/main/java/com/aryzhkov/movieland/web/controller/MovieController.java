@@ -24,4 +24,9 @@ public class MovieController {
     public List<MovieDto> getAll() {
         return movieDTOConverter.convert(movieService.getAll());
     }
+
+    @GetMapping(path = "/random", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public List<MovieDto> getRandom() {
+        return movieDTOConverter.convert(movieService.getRandom());
+    }
 }
