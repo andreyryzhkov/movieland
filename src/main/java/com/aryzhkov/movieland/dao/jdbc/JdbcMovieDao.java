@@ -16,7 +16,7 @@ public class JdbcMovieDao implements MovieDao {
             "release_year, description, rating, price, currency, picture_path FROM movieland.movie";
 
     private static final String SELECT_RANDOM_MOVIE = "SELECT movie_id, native_name, russian_name, release_year, " +
-            "description, rating, price, currency, picture_path FROM movieland.movie ORDER BY RANDOM() LIMIT 3";
+            "description, rating, price, currency, picture_path FROM movieland.movie ORDER BY RANDOM() LIMIT ?";
 
     private static final MovieRowMapper MOVIE_ROW_MAPPER = new MovieRowMapper();
 
@@ -33,7 +33,7 @@ public class JdbcMovieDao implements MovieDao {
     }
 
     @Override
-    public List<Movie> getRandom() {
-        return jdbcTemplate.query(SELECT_RANDOM_MOVIE, MOVIE_ROW_MAPPER);
+    public List<Movie> getRandom(int randomLimit) {
+        return jdbcTemplate.query(SELECT_RANDOM_MOVIE, MOVIE_ROW_MAPPER, randomLimit);
     }
 }

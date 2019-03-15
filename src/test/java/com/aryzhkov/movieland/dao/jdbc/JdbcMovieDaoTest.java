@@ -11,6 +11,8 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+// TODO: move tests to H2 db
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:/spring/app-context.xml"})
 public class JdbcMovieDaoTest {
@@ -31,7 +33,7 @@ public class JdbcMovieDaoTest {
 
     @Test
     public void testGetRandom() {
-        List<Movie> movies = jdbcMovieDao.getRandom();
+        List<Movie> movies = jdbcMovieDao.getRandom(3);
         for (Movie movie : movies) {
             assertNotEquals(movie.getId(), 0);
             assertNotNull(movie.getNameNative());
