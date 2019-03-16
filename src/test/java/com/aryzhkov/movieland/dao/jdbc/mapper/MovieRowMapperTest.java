@@ -21,7 +21,6 @@ public class MovieRowMapperTest {
         when(resultSetMock.getInt("MOVIE_ID")).thenReturn(1);
         when(resultSetMock.getString("RUSSIAN_NAME")).thenReturn("Луна");
         when(resultSetMock.getString("NATIVE_NAME")).thenReturn("Moon");
-        when(resultSetMock.getString("DESCRIPTION")).thenReturn("Movie description");
         when(resultSetMock.getString("RELEASE_YEAR")).thenReturn("1994");
         when(resultSetMock.getDouble("RATING")).thenReturn(9.8);
         when(resultSetMock.getDouble("PRICE")).thenReturn(10.5);
@@ -33,7 +32,6 @@ public class MovieRowMapperTest {
         assertEquals(1, actualMovie.getId());
         assertEquals("Moon", actualMovie.getNameNative());
         assertEquals("Луна", actualMovie.getNameRussian());
-        assertEquals("Movie description", actualMovie.getDescription());
         assertEquals("1994", actualMovie.getYearOfRelease());
         assertEquals(9.8, actualMovie.getRating(), 0.00001);
         assertEquals(10.5, actualMovie.getPrice(), 0.00001);

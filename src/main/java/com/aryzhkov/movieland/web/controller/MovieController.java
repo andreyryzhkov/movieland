@@ -5,9 +5,7 @@ import com.aryzhkov.movieland.service.MovieService;
 import com.aryzhkov.movieland.service.util.MovieDtoConverterImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,5 +26,10 @@ public class MovieController {
     @GetMapping(path = "/random", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<MovieDto> getRandom() {
         return movieDTOConverter.convert(movieService.getRandom());
+    }
+
+    @GetMapping(path = "/genre/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public List<MovieDto> getByGenre(@PathVariable int id) {
+        return movieDTOConverter.convert(movieService.getByGenre(id));
     }
 }
