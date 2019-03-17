@@ -105,4 +105,36 @@ public class MovieControllerTest {
                 .andExpect(jsonPath("$[0].yearOfRelease", is("1994")))
                 .andExpect(jsonPath("$[0].picturePath", is("http:/path.html")));
     }
+
+    @Test
+    public void testGetAllOrder() throws Exception {
+        when(movieServiceMock.getAll("rating", "DESC")).thenReturn(Arrays.asList(movie));
+
+        mockMvc.perform(get("/movie?rating=DESC"))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].id", is(1)))
+                .andExpect(jsonPath("$[0].nameNative", is("Moon")))
+                .andExpect(jsonPath("$[0].nameRussian", is("Луна")))
+                .andExpect(jsonPath("$[0].price", is(10.01)))
+                .andExpect(jsonPath("$[0].rating", is(9.8)))
+                .andExpect(jsonPath("$[0].yearOfRelease", is("1994")))
+                .andExpect(jsonPath("$[0].picturePath", is("http:/path.html")));
+    }
+
+    @Test
+    public void testGetByGenreOrder() throws Exception {
+        when(movieServiceMock.getByGenre(1, "price", "ASC")).thenReturn(Arrays.asList(movie));
+
+        mockMvc.perform(get("/movie/genre/1?price=ASC"))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].id", is(1)))
+                .andExpect(jsonPath("$[0].nameNative", is("Moon")))
+                .andExpect(jsonPath("$[0].nameRussian", is("Луна")))
+                .andExpect(jsonPath("$[0].price", is(10.01)))
+                .andExpect(jsonPath("$[0].rating", is(9.8)))
+                .andExpect(jsonPath("$[0].yearOfRelease", is("1994")))
+                .andExpect(jsonPath("$[0].picturePath", is("http:/path.html")));
+    }
 }

@@ -19,7 +19,15 @@ public class MovieController {
     private final MovieDtoConverterImpl movieDTOConverter;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List<MovieDto> getAll() {
+    public List<MovieDto> getAll(
+            @RequestParam(value = "rating", required = false) String ratingOrder,
+            @RequestParam(value = "price", required = false) String priceOrder) {
+
+        if (ratingOrder != null)
+            return movieDTOConverter.convert(movieService.getAll("rating", ratingOrder));
+        else if (priceOrder != null)
+            return movieDTOConverter.convert(movieService.getAll("price", priceOrder));
+
         return movieDTOConverter.convert(movieService.getAll());
     }
 
@@ -29,7 +37,14 @@ public class MovieController {
     }
 
     @GetMapping(path = "/genre/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List<MovieDto> getByGenre(@PathVariable int id) {
+    public List<MovieDto> getByGenre(@PathVariable int id,
+                                     @RequestParam(value = "rating", required = false) String ratingOrder,
+                                     @RequestParam(value = "price", required = false) String priceOrder) {
+        if (ratingOrder != null)
+            return movieDTOConverter.convert(movieService.getByGenre(id, "rating", ratingOrder));
+        else if (priceOrder != null)
+            return movieDTOConverter.convert(movieService.getByGenre(id, "price", priceOrder));
+
         return movieDTOConverter.convert(movieService.getByGenre(id));
     }
 }

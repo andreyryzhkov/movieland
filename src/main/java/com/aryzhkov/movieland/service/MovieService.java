@@ -11,4 +11,8 @@ public interface MovieService {
     List<Movie> getRandom();
 
     List<Movie> getByGenre(int id);
+
+    List<Movie> getAll(String columnName, String order);
+
+    List<Movie> getByGenre(int id, String columnName, String order);
 }
