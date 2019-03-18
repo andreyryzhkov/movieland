@@ -73,10 +73,27 @@ public class MovieControllerTest {
     }
 
     @Test
-    public void testRandom() throws Exception {
+    public void testGetRandom() throws Exception {
         when(movieServiceMock.getRandom()).thenReturn(Arrays.asList(movie));
 
         mockMvc.perform(get("/movie/random"))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].id", is(1)))
+                .andExpect(jsonPath("$[0].nameNative", is("Moon")))
+                .andExpect(jsonPath("$[0].nameRussian", is("Луна")))
+                .andExpect(jsonPath("$[0].price", is(10.01)))
+                .andExpect(jsonPath("$[0].rating", is(9.8)))
+                .andExpect(jsonPath("$[0].yearOfRelease", is("1994")))
+                .andExpect(jsonPath("$[0].picturePath", is("http:/path.html")));
+    }
+
+    @Test
+    public void testGetByGenre() throws Exception {
+        when(movieServiceMock.getByGenre(1)).thenReturn(Arrays.asList(movie));
+
+        mockMvc.perform(get("/movie/genre/1"))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))

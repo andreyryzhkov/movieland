@@ -9,4 +9,6 @@ public interface MovieService {
     List<Movie> getAll();
 
     List<Movie> getRandom();
+
+    List<Movie> getByGenre(int id);
 }
