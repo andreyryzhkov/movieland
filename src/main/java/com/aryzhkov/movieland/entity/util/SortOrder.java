@@ -1,4 +1,4 @@
-package com.aryzhkov.movieland.entity.sort;
+package com.aryzhkov.movieland.entity.util;
 
 public enum SortOrder {
     ASC("ASC"),

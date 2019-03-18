@@ -1,7 +1,7 @@
 package com.aryzhkov.movieland.dao;
 
 import com.aryzhkov.movieland.entity.Movie;
-import com.aryzhkov.movieland.entity.sort.SortColumn;
+import com.aryzhkov.movieland.entity.util.MovieRequestParam;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ public interface MovieDao {
 
     List<Movie> getByGenre(int id);
 
-    List<Movie> getAll(List<SortColumn> sortColumns);
+    List<Movie> getAll(MovieRequestParam movieRequestParam);
 
-    List<Movie> getByGenre(int id, List<SortColumn> sortColumns);
+    List<Movie> getByGenre(int id, MovieRequestParam movieRequestParam);
 }

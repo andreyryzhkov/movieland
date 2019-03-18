@@ -2,9 +2,8 @@ package com.aryzhkov.movieland.dao.jdbc;
 
 import com.aryzhkov.movieland.dao.MovieDao;
 import com.aryzhkov.movieland.dao.jdbc.mapper.MovieRowMapper;
-import com.aryzhkov.movieland.dao.jdbc.util.QueryConstructor;
 import com.aryzhkov.movieland.entity.Movie;
-import com.aryzhkov.movieland.entity.sort.SortColumn;
+import com.aryzhkov.movieland.entity.util.MovieRequestParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -27,6 +26,8 @@ public class JdbcMovieDao implements MovieDao {
 
     private static final MovieRowMapper MOVIE_ROW_MAPPER = new MovieRowMapper();
 
+    private static final String ORDER_BY_CLAUSE = " ORDER BY ";
+
     private final JdbcTemplate jdbcTemplate;
 
     @Override
@@ -45,12 +46,17 @@ public class JdbcMovieDao implements MovieDao {
     }
 
     @Override
-    public List<Movie> getAll(List<SortColumn> sortColumns) {
-        return jdbcTemplate.query(QueryConstructor.getQuery(SELECT_ALL_MOVIE, sortColumns), MOVIE_ROW_MAPPER);
+    public List<Movie> getAll(MovieRequestParam movieRequestParam) {
+        return jdbcTemplate.query(Query(SELECT_ALL_MOVIE, movieRequestParam), MOVIE_ROW_MAPPER);
     }
 
     @Override
-    public List<Movie> getByGenre(int id, List<SortColumn> sortColumns) {
-        return jdbcTemplate.query(QueryConstructor.getQuery(SELECT_BY_GENRE, sortColumns), MOVIE_ROW_MAPPER, id);
+    public List<Movie> getByGenre(int id, MovieRequestParam movieRequestParam) {
+        return jdbcTemplate.query(Query(SELECT_BY_GENRE, movieRequestParam), MOVIE_ROW_MAPPER, id);
     }
+
+    private static String Query(String query, MovieRequestParam movieRequestParam) {
+        return query + ORDER_BY_CLAUSE + movieRequestParam.getOrderByClause();
+    }
+
 }

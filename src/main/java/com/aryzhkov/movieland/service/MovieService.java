@@ -1,6 +1,7 @@
 package com.aryzhkov.movieland.service;
 
 import com.aryzhkov.movieland.entity.Movie;
+import com.aryzhkov.movieland.entity.util.MovieRequestParam;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ public interface MovieService {
 
     List<Movie> getByGenre(int id);
 
-    List<Movie> getAll(String columnName, String order);
+    List<Movie> getAll(MovieRequestParam movieRequestParam);
 
-    List<Movie> getByGenre(int id, String columnName, String order);
+    List<Movie> getByGenre(int id, MovieRequestParam movieRequestParam);
 }

@@ -1,6 +1,8 @@
 package com.aryzhkov.movieland.web.controller;
 
 import com.aryzhkov.movieland.entity.Movie;
+import com.aryzhkov.movieland.entity.util.MovieRequestParam;
+import com.aryzhkov.movieland.entity.util.SortOrder;
 import com.aryzhkov.movieland.service.MovieService;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,6 +19,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
@@ -108,9 +111,11 @@ public class MovieControllerTest {
 
     @Test
     public void testGetAllOrder() throws Exception {
-        when(movieServiceMock.getAll("rating", "DESC")).thenReturn(Arrays.asList(movie));
+        MovieRequestParam movieRequestParam = new MovieRequestParam("rating", SortOrder.DESC);
 
-        mockMvc.perform(get("/movie?rating=DESC"))
+        when(movieServiceMock.getAll(movieRequestParam)).thenReturn(Arrays.asList(movie));
+
+        mockMvc.perform(get("/movie?rating=desc"))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].id", is(1)))
@@ -124,7 +129,9 @@ public class MovieControllerTest {
 
     @Test
     public void testGetByGenreOrder() throws Exception {
-        when(movieServiceMock.getByGenre(1, "price", "ASC")).thenReturn(Arrays.asList(movie));
+        MovieRequestParam movieRequestParam = new MovieRequestParam("price", SortOrder.ASC);
+
+        when(movieServiceMock.getByGenre(1, movieRequestParam)).thenReturn(Arrays.asList(movie));
 
         mockMvc.perform(get("/movie/genre/1?price=ASC"))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
