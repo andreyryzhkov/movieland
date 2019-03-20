@@ -1,7 +1,7 @@
 package com.aryzhkov.movieland.service;
 
 import com.aryzhkov.movieland.entity.Movie;
-import com.aryzhkov.movieland.entity.util.MovieRequestParam;
+import com.aryzhkov.movieland.web.util.MovieRequestParam;
 
 import java.util.List;
 

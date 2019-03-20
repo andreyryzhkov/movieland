@@ -1,8 +1,8 @@
 package com.aryzhkov.movieland.web.controller;
 
 import com.aryzhkov.movieland.entity.Movie;
-import com.aryzhkov.movieland.entity.util.MovieRequestParam;
-import com.aryzhkov.movieland.entity.util.SortOrder;
+import com.aryzhkov.movieland.web.util.MovieRequestParam;
+import com.aryzhkov.movieland.web.util.SortOrder;
 import com.aryzhkov.movieland.service.MovieService;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,7 +19,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.Arrays;
-import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
