@@ -2,6 +2,7 @@ package com.aryzhkov.movieland.service.impl;
 
 import com.aryzhkov.movieland.dao.MovieDao;
 import com.aryzhkov.movieland.entity.Movie;
+import com.aryzhkov.movieland.web.util.MovieRequestParam;
 import com.aryzhkov.movieland.service.MovieService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,5 +32,15 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public List<Movie> getByGenre(int id) {
         return movieDao.getByGenre(id);
+    }
+
+    @Override
+    public List<Movie> getAll(MovieRequestParam movieRequestParam) {
+        return movieDao.getAll(movieRequestParam);
+    }
+
+    @Override
+    public List<Movie> getByGenre(int id, MovieRequestParam movieRequestParam) {
+        return movieDao.getByGenre(id, movieRequestParam);
     }
 }

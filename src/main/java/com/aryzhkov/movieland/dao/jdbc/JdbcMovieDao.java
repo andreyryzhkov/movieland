@@ -2,7 +2,9 @@ package com.aryzhkov.movieland.dao.jdbc;
 
 import com.aryzhkov.movieland.dao.MovieDao;
 import com.aryzhkov.movieland.dao.jdbc.mapper.MovieRowMapper;
+import com.aryzhkov.movieland.dao.jdbc.util.QueryConstructor;
 import com.aryzhkov.movieland.entity.Movie;
+import com.aryzhkov.movieland.web.util.MovieRequestParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -40,5 +42,15 @@ public class JdbcMovieDao implements MovieDao {
     @Override
     public List<Movie> getByGenre(int id) {
         return jdbcTemplate.query(SELECT_BY_GENRE, MOVIE_ROW_MAPPER, id);
+    }
+
+    @Override
+    public List<Movie> getAll(MovieRequestParam movieRequestParam) {
+        return jdbcTemplate.query(QueryConstructor.Query(SELECT_ALL_MOVIE, movieRequestParam), MOVIE_ROW_MAPPER);
+    }
+
+    @Override
+    public List<Movie> getByGenre(int id, MovieRequestParam movieRequestParam) {
+        return jdbcTemplate.query(QueryConstructor.Query(SELECT_BY_GENRE, movieRequestParam), MOVIE_ROW_MAPPER, id);
     }
 }
