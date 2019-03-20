@@ -1,6 +1,6 @@
 package com.aryzhkov.movieland.web.controller;
 
-import com.aryzhkov.movieland.web.util.BuildMovieRequestParam;
+import com.aryzhkov.movieland.web.util.MovieRequestParamBuilder;
 import com.aryzhkov.movieland.web.util.MovieRequestParam;
 import com.aryzhkov.movieland.web.util.SortOrder;
 import com.aryzhkov.movieland.web.dto.MovieDto;
@@ -28,10 +28,9 @@ public class MovieController {
             @RequestParam(value = "rating", required = false) SortOrder ratingOrder,
             @RequestParam(value = "price", required = false) SortOrder priceOrder) {
 
-        BuildMovieRequestParam buildMovieRequestParam = new BuildMovieRequestParam();
-        MovieRequestParam movieRequestParam = buildMovieRequestParam.getMovieRequestParam(ratingOrder, priceOrder);
+        MovieRequestParam movieRequestParam = MovieRequestParamBuilder.getMovieRequestParam(ratingOrder, priceOrder);
 
-        if (buildMovieRequestParam.isValid(movieRequestParam)) {
+        if (movieRequestParam != null) {
             return movieDTOConverter.convert(movieService.getAll(movieRequestParam));
         }
 
@@ -48,10 +47,9 @@ public class MovieController {
                                      @RequestParam(value = "rating", required = false) SortOrder ratingOrder,
                                      @RequestParam(value = "price", required = false) SortOrder priceOrder) {
 
-        BuildMovieRequestParam buildMovieRequestParam = new BuildMovieRequestParam();
-        MovieRequestParam movieRequestParam = buildMovieRequestParam.getMovieRequestParam(ratingOrder, priceOrder);
+        MovieRequestParam movieRequestParam = MovieRequestParamBuilder.getMovieRequestParam(ratingOrder, priceOrder);
 
-        if (buildMovieRequestParam.isValid(movieRequestParam)) {
+        if (movieRequestParam != null) {
             return movieDTOConverter.convert(movieService.getByGenre(id, movieRequestParam));
         }
 
