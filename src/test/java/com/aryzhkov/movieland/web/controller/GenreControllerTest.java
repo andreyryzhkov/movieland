@@ -47,9 +47,7 @@ public class GenreControllerTest {
 
     @Test
     public void testGetAll() throws Exception {
-        Genre genre = new Genre();
-        genre.setId(1);
-        genre.setName("драма");
+        Genre genre = new Genre(1, "драма");
 
         when(genreServiceMock.getAll()).thenReturn(Arrays.asList(genre));
 
