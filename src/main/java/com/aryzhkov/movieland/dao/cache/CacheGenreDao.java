@@ -16,14 +16,14 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @Primary
-public class GenreCacheDaoImpl implements GenreDao {
+public class CacheGenreDao implements GenreDao {
 
     private final GenreDao genreDao;
 
-    private volatile List<Genre> cacheGenres = new ArrayList<>();
+    private volatile List<Genre> cacheGenres;
 
     @PostConstruct
-    @Scheduled(initialDelayString = "${cache.initialDelay}", fixedDelayString = "${cache.fixedDelay}")
+    @Scheduled(fixedDelayString = "${cache.fixedDelay}")
     public void refresh() {
         log.info("Refresh genre cache");
         cacheGenres = genreDao.getAll();
