@@ -1,5 +1,6 @@
 package com.aryzhkov.movieland.dao.jdbc;
 
+import com.aryzhkov.movieland.entity.Genre;
 import com.aryzhkov.movieland.entity.Movie;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,6 +20,9 @@ public class JdbcMovieDaoTest {
 
     @Autowired
     private JdbcMovieDao jdbcMovieDao;
+
+    @Autowired
+    private JdbcGenreDao jdbcGenreDao;
 
     @Test
     public void testGetAll() {
@@ -41,5 +45,15 @@ public class JdbcMovieDaoTest {
             assertNotEquals(movie.getYearOfRelease(), "0");
         }
         assertEquals(3, movies.size());
+    }
+
+    @Test
+    public void testGetById(){
+        Movie movie = jdbcMovieDao.getById(63);
+    }
+
+    @Test
+    public void testGetGenreById(){
+        List<Genre> genres = jdbcGenreDao.getById(51);
     }
 }

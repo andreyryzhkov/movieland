@@ -33,4 +33,9 @@ public class CacheGenreDao implements GenreDao {
     public List<Genre> getAll() {
         return new ArrayList<>(cacheGenres);
     }
+
+    @Override
+    public List<Genre> getById(int id) {
+        return genreDao.getById(id);
+    }
 }
