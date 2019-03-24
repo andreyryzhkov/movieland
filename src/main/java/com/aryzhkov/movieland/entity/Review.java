@@ -8,6 +8,5 @@ import lombok.Setter;
 public class Review {
     private int id;
     private String comment;
-    private double rating;
     private User user;
 }

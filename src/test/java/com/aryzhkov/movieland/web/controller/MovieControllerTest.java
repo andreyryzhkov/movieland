@@ -1,5 +1,6 @@
 package com.aryzhkov.movieland.web.controller;
 
+import com.aryzhkov.movieland.entity.Country;
 import com.aryzhkov.movieland.entity.Movie;
 import com.aryzhkov.movieland.web.util.MovieRequestParam;
 import com.aryzhkov.movieland.web.util.SortOrder;
@@ -35,6 +36,7 @@ public class MovieControllerTest {
     private MockMvc mockMvc;
 
     private Movie movie = new Movie();
+    private Movie fullMovie = new Movie();
 
     @Qualifier("movieService")
     @Autowired
@@ -55,6 +57,8 @@ public class MovieControllerTest {
         movie.setPrice(10.01);
         movie.setYearOfRelease("1994");
         movie.setPicturePath("http:/path.html");
+
+        fullMovie.setId(55);
     }
 
     @Test
@@ -142,5 +146,15 @@ public class MovieControllerTest {
                 .andExpect(jsonPath("$[0].rating", is(9.8)))
                 .andExpect(jsonPath("$[0].yearOfRelease", is("1994")))
                 .andExpect(jsonPath("$[0].picturePath", is("http:/path.html")));
+    }
+
+    @Test
+    public void testGetById() throws Exception {
+        when(movieServiceMock.getById(55)).thenReturn(fullMovie);
+
+        mockMvc.perform(get("/movie/55"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.id", is(55)));
     }
 }
