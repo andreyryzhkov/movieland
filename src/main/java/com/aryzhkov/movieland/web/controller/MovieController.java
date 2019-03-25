@@ -1,5 +1,6 @@
 package com.aryzhkov.movieland.web.controller;
 
+import com.aryzhkov.movieland.entity.Movie;
 import com.aryzhkov.movieland.web.util.MovieRequestParamBuilder;
 import com.aryzhkov.movieland.web.util.MovieRequestParam;
 import com.aryzhkov.movieland.web.util.SortOrder;
@@ -54,6 +55,11 @@ public class MovieController {
         }
 
         return movieDTOConverter.convert(movieService.getByGenre(id));
+    }
+
+    @GetMapping(path = "/{movieId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Movie getById(@PathVariable int movieId) {
+        return movieService.getById(movieId);
     }
 
     @InitBinder

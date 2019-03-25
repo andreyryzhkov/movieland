@@ -2,6 +2,9 @@ package com.aryzhkov.movieland.service.impl;
 
 import com.aryzhkov.movieland.dao.MovieDao;
 import com.aryzhkov.movieland.entity.Movie;
+import com.aryzhkov.movieland.service.CountryService;
+import com.aryzhkov.movieland.service.GenreService;
+import com.aryzhkov.movieland.service.ReviewService;
 import com.aryzhkov.movieland.web.util.MovieRequestParam;
 import com.aryzhkov.movieland.service.MovieService;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +18,12 @@ import java.util.List;
 public class MovieServiceImpl implements MovieService {
 
     private final MovieDao movieDao;
+
+    private final GenreService genreService;
+
+    private final CountryService countryService;
+
+    private final ReviewService reviewService;
 
     @Value("${movie.randomLimit}")
     private int randomLimit;
@@ -42,5 +51,16 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public List<Movie> getByGenre(int id, MovieRequestParam movieRequestParam) {
         return movieDao.getByGenre(id, movieRequestParam);
+    }
+
+    @Override
+    public Movie getById(int id) {
+        Movie movie = movieDao.getById(id);
+
+        genreService.enrich(movie);
+        countryService.enrich(movie);
+        reviewService.enrich(movie);
+
+        return movie;
     }
 }
