@@ -1,7 +1,6 @@
 package com.aryzhkov.movieland.web.controller;
 
-import com.aryzhkov.movieland.entity.Country;
-import com.aryzhkov.movieland.entity.Movie;
+import com.aryzhkov.movieland.entity.*;
 import com.aryzhkov.movieland.web.util.MovieRequestParam;
 import com.aryzhkov.movieland.web.util.SortOrder;
 import com.aryzhkov.movieland.service.MovieService;
@@ -59,6 +58,19 @@ public class MovieControllerTest {
         movie.setPicturePath("http:/path.html");
 
         fullMovie.setId(55);
+        fullMovie.setNameNative("Intouchables");
+        fullMovie.setNameRussian("1+1");
+        fullMovie.setRating(8.3);
+        fullMovie.setPrice(120);
+        fullMovie.setYearOfRelease("2011");
+        fullMovie.setDescription("Краткое содержание");
+        fullMovie.setPicturePath("http:/path/picture.jpg");
+        fullMovie.setCountries(Arrays.asList(new Country(2, "Франция")));
+        fullMovie.setGenres(Arrays.asList(new Genre(1, "драма"), new Genre(6, "биография"),
+                new Genre(7, "комедия")));
+        fullMovie.setReviews(Arrays.asList(new Review(9, "Комментарий1",
+                new User(10, "Амелия Кэннеди")), new Review(8, "Комментарий2",
+                new User(12, "Джесси Паттерсон"))));
     }
 
     @Test
@@ -155,6 +167,32 @@ public class MovieControllerTest {
         mockMvc.perform(get("/movie/55"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.id", is(55)));
+                .andExpect(jsonPath("$.id", is(55)))
+                .andExpect(jsonPath("$.nameNative", is("Intouchables")))
+                .andExpect(jsonPath("$.nameRussian", is("1+1")))
+                .andExpect(jsonPath("$.price", is(120.0)))
+                .andExpect(jsonPath("$.rating", is(8.3)))
+                .andExpect(jsonPath("$.yearOfRelease", is("2011")))
+                .andExpect(jsonPath("$.picturePath", is("http:/path/picture.jpg")))
+                .andExpect(jsonPath("$.description", is("Краткое содержание")))
+                .andExpect(jsonPath("$.countries", hasSize(1)))
+                .andExpect(jsonPath("$.countries[0].id", is(2)))
+                .andExpect(jsonPath("$.countries[0].name", is("Франция")))
+                .andExpect(jsonPath("$.genres",hasSize(3)))
+                .andExpect(jsonPath("$.genres[0].id",is(1)))
+                .andExpect(jsonPath("$.genres[0].name",is("драма")))
+                .andExpect(jsonPath("$.genres[1].id",is(6)))
+                .andExpect(jsonPath("$.genres[1].name",is("биография")))
+                .andExpect(jsonPath("$.genres[2].id",is(7)))
+                .andExpect(jsonPath("$.genres[2].name",is("комедия")))
+                .andExpect(jsonPath("$.reviews",hasSize(2)))
+                .andExpect(jsonPath("$.reviews[0].id",is(9)))
+                .andExpect(jsonPath("$.reviews[0].comment",is("Комментарий1")))
+                .andExpect(jsonPath("$.reviews[0].user.id",is(10)))
+                .andExpect(jsonPath("$.reviews[0].user.nickName",is("Амелия Кэннеди")))
+                .andExpect(jsonPath("$.reviews[1].id",is(8)))
+                .andExpect(jsonPath("$.reviews[1].comment",is("Комментарий2")))
+                .andExpect(jsonPath("$.reviews[1].user.id",is(12)))
+                .andExpect(jsonPath("$.reviews[1].user.nickName",is("Джесси Паттерсон")));
     }
 }
