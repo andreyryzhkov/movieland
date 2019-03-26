@@ -1,13 +1,10 @@
 package com.aryzhkov.movieland.web.controller;
 
 import com.aryzhkov.movieland.entity.Movie;
-import com.aryzhkov.movieland.web.util.MovieRequestParamBuilder;
-import com.aryzhkov.movieland.web.util.MovieRequestParam;
-import com.aryzhkov.movieland.web.util.SortOrder;
+import com.aryzhkov.movieland.web.util.*;
 import com.aryzhkov.movieland.web.dto.MovieDto;
 import com.aryzhkov.movieland.service.MovieService;
 import com.aryzhkov.movieland.service.util.MovieDtoConverterImpl;
-import com.aryzhkov.movieland.web.util.SortOrderConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.WebDataBinder;
@@ -58,12 +55,19 @@ public class MovieController {
     }
 
     @GetMapping(path = "/{movieId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Movie getById(@PathVariable int movieId) {
+    public Movie getById(@PathVariable int movieId,
+                         @RequestParam(value = "currency", required = false) Currency currency) {
+
+        if (currency != null) {
+            return movieService.getById(movieId, currency);
+        }
+
         return movieService.getById(movieId);
     }
 
     @InitBinder
     public void initBinder(WebDataBinder dataBinder) {
         dataBinder.registerCustomEditor(SortOrder.class, new SortOrderConverter());
+        dataBinder.registerCustomEditor(Currency.class, new CurrencyConverter());
     }
 }
