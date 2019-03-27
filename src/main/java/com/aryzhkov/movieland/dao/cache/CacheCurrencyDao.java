@@ -38,7 +38,7 @@ public class CacheCurrencyDao implements CurrencyDao {
         });
 
         for (ExchangeCurrency exchangeCurrency : exchangeCurrencyList) {
-            cacheCurrency.putIfAbsent(exchangeCurrency.getCc(), exchangeCurrency.getRate());
+            cacheCurrency.put(exchangeCurrency.getCurrency(), exchangeCurrency.getRate());
         }
     }
 
