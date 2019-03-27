@@ -25,7 +25,6 @@ public class MovieFullRowMapperTest {
         when(resultSetMock.getString("DESCRIPTION")).thenReturn("Description");
         when(resultSetMock.getDouble("RATING")).thenReturn(9.8);
         when(resultSetMock.getDouble("PRICE")).thenReturn(10.5);
-        when(resultSetMock.getString("CURRENCY")).thenReturn("USD");
         when(resultSetMock.getString("PICTURE_PATH")).thenReturn("http://picture_path.html");
 
         Movie actualMovie = movieFullRowMapper.mapRow(resultSetMock, 0);
@@ -37,7 +36,6 @@ public class MovieFullRowMapperTest {
         assertEquals("Description", actualMovie.getDescription());
         assertEquals(9.8, actualMovie.getRating(), 0.00001);
         assertEquals(10.5, actualMovie.getPrice(), 0.00001);
-        assertEquals("USD", actualMovie.getCurrency());
         assertEquals("http://picture_path.html", actualMovie.getPicturePath());
 
     }
