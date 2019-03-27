@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Repository;
 
@@ -15,18 +16,19 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @RequiredArgsConstructor
 @Repository
 public class CacheCurrencyDao implements CurrencyDao {
 
-    private static final String URL = "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json";
+    @Value("${cache.currency.url}")
+    private String URL;
 
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
-    private volatile Map<String, Double> cacheCurrencyRate;
+    private ConcurrentHashMap<String, Double> cacheCurrency = new ConcurrentHashMap<>();
 
     @PostConstruct
     @Scheduled(cron = "${cache.currency.cron}")
@@ -35,12 +37,13 @@ public class CacheCurrencyDao implements CurrencyDao {
         List<ExchangeCurrency> exchangeCurrencyList = OBJECT_MAPPER.readValue(new URL(URL), new TypeReference<List<ExchangeCurrency>>() {
         });
 
-        cacheCurrencyRate = exchangeCurrencyList.stream()
-                .collect(Collectors.toMap(ExchangeCurrency::getCc, ExchangeCurrency::getRate));
+        for (ExchangeCurrency exchangeCurrency : exchangeCurrencyList) {
+            cacheCurrency.putIfAbsent(exchangeCurrency.getCc(), exchangeCurrency.getRate());
+        }
     }
 
     @Override
     public Map<String, Double> getAll() {
-        return new HashMap<>(cacheCurrencyRate);
+        return new HashMap<>(cacheCurrency);
     }
 }

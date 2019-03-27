@@ -19,4 +19,9 @@ public class CurrencyServiceImpl implements CurrencyService {
         Map<String, Double> map = currencyDao.getAll();
         return map.get(currency.getCurrency());
     }
+
+    @Override
+    public double convert(double price, Currency currency) {
+        return price / getRate(currency);
+    }
 }

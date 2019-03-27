@@ -68,8 +68,7 @@ public class MovieServiceImpl implements MovieService {
     public Movie getById(int id, Currency currency) {
         Movie movie = getById(id);
 
-        movie.setPrice(movie.getPrice() / currencyService.getRate(currency));
-        movie.setCurrency(currency.getCurrency());
+        movie.setPrice(currencyService.convert(movie.getPrice(), currency));
 
         return movie;
     }
