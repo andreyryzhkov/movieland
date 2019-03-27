@@ -1,7 +1,7 @@
-package com.aryzhkov.movieland.dao.cache;
+package com.aryzhkov.movieland.service.cache;
 
-import com.aryzhkov.movieland.dao.CurrencyDao;
-import com.aryzhkov.movieland.dao.util.ExchangeCurrency;
+import com.aryzhkov.movieland.service.ExchangeCurrencyService;
+import com.aryzhkov.movieland.service.util.ExchangeCurrency;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 @RequiredArgsConstructor
 @Repository
-public class CacheCurrencyDao implements CurrencyDao {
+public class CacheExchangeCurrencyService implements ExchangeCurrencyService {
 
     @Value("${cache.currency.url}")
     private String URL;

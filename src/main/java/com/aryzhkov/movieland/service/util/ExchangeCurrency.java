@@ -1,4 +1,4 @@
-package com.aryzhkov.movieland.dao.util;
+package com.aryzhkov.movieland.service.util;
 
 import lombok.Getter;
 import lombok.Setter;

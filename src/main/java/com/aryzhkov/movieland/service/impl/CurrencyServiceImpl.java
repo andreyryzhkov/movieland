@@ -1,6 +1,6 @@
 package com.aryzhkov.movieland.service.impl;
 
-import com.aryzhkov.movieland.dao.CurrencyDao;
+import com.aryzhkov.movieland.service.ExchangeCurrencyService;
 import com.aryzhkov.movieland.service.CurrencyService;
 import com.aryzhkov.movieland.web.util.Currency;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class CurrencyServiceImpl implements CurrencyService {
 
-    private final CurrencyDao currencyDao;
+    private final ExchangeCurrencyService currencyDao;
 
     @Override
     public double getRate(Currency currency) {
