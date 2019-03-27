@@ -1,19 +1,18 @@
 package com.aryzhkov.movieland.service.util;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
 @Setter
 @Getter
+@JsonIgnoreProperties({"r030","txt","exchangedate"})
 public class ExchangeCurrency {
 
-    private int r030;
-    private String txt;
+    @JsonProperty("rate")
     private double rate;
-    private String cc;
-    private String exchangedate;
 
-    public String getCurrency() {
-        return cc;
-    }
+    @JsonProperty("cc")
+    private String currency;
 }

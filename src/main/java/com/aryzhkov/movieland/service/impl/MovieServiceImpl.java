@@ -19,6 +19,8 @@ public class MovieServiceImpl implements MovieService {
 
     private final MovieEnrichmentService movieEnrichmentService;
 
+    private final CurrencyService currencyService;
+
     @Value("${movie.randomLimit}")
     private int randomLimit;
 
@@ -60,7 +62,7 @@ public class MovieServiceImpl implements MovieService {
     public Movie getById(int id, Currency currency) {
         Movie movie = getById(id);
 
-        movieEnrichmentService.enrich(movie, currency);
+        movie.setPrice(currencyService.convert(movie.getPrice(), currency));
 
         return movie;
     }

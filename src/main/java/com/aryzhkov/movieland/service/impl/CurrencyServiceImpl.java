@@ -12,11 +12,11 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class CurrencyServiceImpl implements CurrencyService {
 
-    private final ExchangeCurrencyService currencyDao;
+    private final ExchangeCurrencyService exchangeCurrencyService;
 
     @Override
     public double getRate(Currency currency) {
-        Map<String, Double> map = currencyDao.getAll();
+        Map<String, Double> map = exchangeCurrencyService.getAll();
         return map.get(currency.getCurrency());
     }
 

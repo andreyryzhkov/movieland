@@ -16,7 +16,6 @@ public class Movie {
     private String description;
     private double rating;
     private double price;
-    private String currency;
     private String picturePath;
     private List<Country> countries;
     private List<Genre> genres;
