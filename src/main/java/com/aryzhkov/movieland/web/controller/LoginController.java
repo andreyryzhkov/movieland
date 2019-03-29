@@ -1,6 +1,5 @@
 package com.aryzhkov.movieland.web.controller;
 
-import com.aryzhkov.movieland.entity.User;
 import com.aryzhkov.movieland.security.SecurityService;
 import com.aryzhkov.movieland.security.util.Session;
 import com.aryzhkov.movieland.web.dto.SessionDto;
@@ -17,8 +16,7 @@ public class LoginController {
 
     @PostMapping(path = "/login", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public SessionDto login(@RequestBody Credential credential) {
-        User user = securityService.login(credential);
-        Session session = securityService.getSession(user);
+        Session session = securityService.newSession(credential);
 
         return new SessionDto(session.getToken(), session.getUser().getNickName());
     }
