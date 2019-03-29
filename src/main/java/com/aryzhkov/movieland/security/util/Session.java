@@ -13,4 +13,8 @@ public class Session {
     private String token;
     private User user;
     private LocalDateTime expireDate;
+
+    public boolean isSessionExpired() {
+        return !getExpireDate().isAfter(LocalDateTime.now());
+    }
 }

@@ -21,6 +21,6 @@ public class JdbcUserDao implements UserDao {
 
     @Override
     public User getByEmail(Credential credential) {
-        return jdbcTemplate.queryForObject(SELECT_BY_EMAIL, USER_ROW_MAPPER, credential.getLogin(), credential.getPassword());
+        return jdbcTemplate.queryForObject(SELECT_BY_EMAIL, USER_ROW_MAPPER, credential.getEmail(), credential.getPassword());
     }
 }

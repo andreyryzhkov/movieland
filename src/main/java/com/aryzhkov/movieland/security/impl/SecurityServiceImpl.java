@@ -12,10 +12,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +22,7 @@ public class SecurityServiceImpl implements SecurityService {
     @Value("2")
     private int expireTime;
 
-    private List<Session> sessions = Collections.synchronizedList(new ArrayList<>());
+    private ConcurrentHashMap<String, Session> sessions = new ConcurrentHashMap();
 
     private final UserService userService;
 
@@ -44,26 +42,20 @@ public class SecurityServiceImpl implements SecurityService {
         session.setUser(user);
         session.setExpireDate(LocalDateTime.now().plusHours(expireTime));
 
-        sessions.add(session);
+        sessions.put(token, session);
 
         return session;
     }
 
-    private void removeSession(Session session) {
-        sessions.remove(session);
-    }
-
-    private boolean isSessionExpired(Session session) {
-        return !session.getExpireDate().isAfter(LocalDateTime.now());
+    @Override
+    public void removeSession(String token) {
+        sessions.remove(token);
     }
 
     @PostConstruct
     @Scheduled(cron = "0 * * * * *")
     private void removeSession() {
-        for (Session session : sessions) {
-            if (isSessionExpired(session)) {
-                removeSession(session);
-            }
-        }
+        sessions.entrySet()
+                .removeIf(entry -> entry.getValue().isSessionExpired());
     }
 }

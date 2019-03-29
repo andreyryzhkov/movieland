@@ -9,4 +9,6 @@ public interface SecurityService {
     User login(Credential credential);
 
     Session getSession(User user);
+
+    void removeSession(String token);
 }
