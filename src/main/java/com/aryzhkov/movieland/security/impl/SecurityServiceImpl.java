@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -26,22 +27,28 @@ public class SecurityServiceImpl implements SecurityService {
 
     private final ConcurrentHashMap<String, Session> sessions = new ConcurrentHashMap();
 
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+
     private final UserService userService;
 
     @Override
     public Session newSession(Credential credential) {
-        Session session = new Session();
-
-        String token = UUID.randomUUID().toString();
         User user = userService.getByEmail(credential);
+        if (user != null) {
+            if (passwordEncoder.matches(credential.getPassword(), user.getPassword())) {
+                Session session = new Session();
 
-        session.setToken(token);
-        session.setUser(user);
-        session.setExpireDate(LocalDateTime.now().plusHours(expireTime));
+                String token = UUID.randomUUID().toString();
+                session.setToken(token);
+                session.setUser(user);
+                session.setExpireDate(LocalDateTime.now().plusHours(expireTime));
 
-        sessions.put(token, session);
+                sessions.put(token, session);
 
-        return session;
+                return session;
+            }
+        }
+        return null;
     }
 
     @Override

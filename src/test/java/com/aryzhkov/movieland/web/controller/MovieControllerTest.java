@@ -70,8 +70,8 @@ public class MovieControllerTest {
         fullMovie.setGenres(Arrays.asList(new Genre(1, "драма"), new Genre(6, "биография"),
                 new Genre(7, "комедия")));
         fullMovie.setReviews(Arrays.asList(new Review(9, "Комментарий1",
-                new User(10, "Амелия Кэннеди")), new Review(8, "Комментарий2",
-                new User(12, "Джесси Паттерсон"))));
+                new User(10, "Амелия Кэннеди","")), new Review(8, "Комментарий2",
+                new User(12, "Джесси Паттерсон",""))));
     }
 
     @Test
