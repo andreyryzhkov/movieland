@@ -5,6 +5,7 @@ import com.aryzhkov.movieland.security.SecurityService;
 import com.aryzhkov.movieland.service.UserService;
 import com.aryzhkov.movieland.security.util.Session;
 import com.aryzhkov.movieland.web.util.Credential;
+import com.aryzhkov.movieland.web.util.UserRole;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -54,6 +55,16 @@ public class SecurityServiceImpl implements SecurityService {
     @Override
     public void removeSession(String token) {
         sessions.remove(token);
+    }
+
+    @Override
+    public Optional<Session> getSession(String token) {
+        return Optional.ofNullable(sessions.get(token));
+    }
+
+    @Override
+    public boolean isAuthorized(User user) {
+        return user.getUserRole() == UserRole.USER;
     }
 
     private boolean isSessionExpired(Session session) {

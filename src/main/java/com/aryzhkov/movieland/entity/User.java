@@ -1,5 +1,6 @@
 package com.aryzhkov.movieland.entity;
 
+import com.aryzhkov.movieland.web.util.UserRole;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,4 +16,6 @@ public class User {
     private String nickName;
     @JsonIgnore
     private String password;
+    @JsonIgnore
+    private UserRole userRole;
 }
