@@ -1,13 +1,13 @@
 package com.aryzhkov.movieland.security.util;
 
 import com.aryzhkov.movieland.entity.User;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Getter
-@Setter
+@AllArgsConstructor
 public class Session {
 
     private String token;
