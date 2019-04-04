@@ -1,6 +1,5 @@
 package com.aryzhkov.movieland.security;
 
-import com.aryzhkov.movieland.entity.User;
 import com.aryzhkov.movieland.security.util.Session;
 import com.aryzhkov.movieland.web.util.Credential;
 
@@ -13,6 +12,4 @@ public interface SecurityService {
     void removeSession(String token);
 
     Optional<Session> getSession(String token);
-
-    boolean isAuthorized(User user);
 }

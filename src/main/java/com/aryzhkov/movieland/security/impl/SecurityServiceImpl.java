@@ -62,11 +62,6 @@ public class SecurityServiceImpl implements SecurityService {
         return Optional.ofNullable(sessions.get(token));
     }
 
-    @Override
-    public boolean isAuthorized(User user) {
-        return user.getUserRole() == UserRole.USER;
-    }
-
     private boolean isSessionExpired(Session session) {
         return !session.getExpireDate().isAfter(LocalDateTime.now());
     }
