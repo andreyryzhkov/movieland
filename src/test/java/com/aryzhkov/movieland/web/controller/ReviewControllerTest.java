@@ -48,10 +48,7 @@ public class ReviewControllerTest {
         User user = new User();
         user.setId(4);
         user.setUserRole(UserRole.USER);
-        Session session = new Session();
-        session.setToken("99a36356-9664-4aed-929e-fc207160e5e0");
-        session.setUser(user);
-        session.setExpireDate(LocalDateTime.now());
+        Session session = new Session("99a36356-9664-4aed-929e-fc207160e5e0", user, LocalDateTime.now());
 
         when(securityService.getSession("99a36356-9664-4aed-929e-fc207160e5e0")).thenReturn(Optional.of(session));
 

@@ -33,27 +33,24 @@ public class SecurityServiceImpl implements SecurityService {
     private final UserService userService;
 
     @Override
-    public Session newSession(Credential credential) {
+    public Optional<Session> login(Credential credential) {
         User user = userService.getByEmail(credential);
         if (user != null) {
             if (passwordEncoder.matches(credential.getPassword(), user.getPassword())) {
-                Session session = new Session();
 
                 String token = UUID.randomUUID().toString();
-                session.setToken(token);
-                session.setUser(user);
-                session.setExpireDate(LocalDateTime.now().plusHours(expireTime));
+                Session session = new Session(token, user, LocalDateTime.now().plusHours(expireTime));
 
                 sessions.put(token, session);
 
-                return session;
+                return Optional.of(session);
             }
         }
-        return null;
+        return Optional.empty();
     }
 
     @Override
-    public void removeSession(String token) {
+    public void logout(String token) {
         sessions.remove(token);
     }
 
