@@ -7,5 +7,5 @@ import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ProtectedBy {
-    UserRole value() default UserRole.USER;
+    UserRole value();
 }

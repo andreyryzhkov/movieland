@@ -13,4 +13,8 @@ public class UserHolder {
     public static User getCurrentUser() {
         return userHolder.get();
     }
+
+    public static void remove() {
+        userHolder.remove();
+    }
 }
