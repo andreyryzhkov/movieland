@@ -2,6 +2,7 @@ package com.aryzhkov.movieland.service.impl;
 
 import com.aryzhkov.movieland.dao.ReviewDao;
 import com.aryzhkov.movieland.entity.Movie;
+import com.aryzhkov.movieland.entity.Review;
 import com.aryzhkov.movieland.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,5 +16,10 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public void enrich(Movie movie) {
         movie.setReviews(reviewDao.getByMovieId(movie.getId()));
+    }
+
+    @Override
+    public void addReview(Review review) {
+        reviewDao.addReview(review);
     }
 }

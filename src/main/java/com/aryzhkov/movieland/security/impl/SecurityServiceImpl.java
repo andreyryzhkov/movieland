@@ -53,6 +53,16 @@ public class SecurityServiceImpl implements SecurityService {
         sessions.remove(token);
     }
 
+    @Override
+    public Optional<Session> getSession(String token) {
+        Session session = sessions.get(token);
+        if (isSessionExpired(session)) {
+            sessions.remove(token);
+            return Optional.empty();
+        }
+        return Optional.of(session);
+    }
+
     private boolean isSessionExpired(Session session) {
         return !session.getExpireDate().isAfter(LocalDateTime.now());
     }

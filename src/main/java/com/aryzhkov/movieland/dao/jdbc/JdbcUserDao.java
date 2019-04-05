@@ -16,7 +16,7 @@ import org.springframework.stereotype.Repository;
 public class JdbcUserDao implements UserDao {
 
     private static final String SELECT_BY_EMAIL = "select user_id, first_name || ' ' || last_name as nick_name," +
-            "  password from movieland.users where email = ?";
+            "  password, role from movieland.users where email = ?";
 
     private static final UserRowMapper USER_ROW_MAPPER = new UserRowMapper();
 

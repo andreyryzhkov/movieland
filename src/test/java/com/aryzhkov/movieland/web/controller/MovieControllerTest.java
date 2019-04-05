@@ -5,6 +5,7 @@ import com.aryzhkov.movieland.web.util.Currency;
 import com.aryzhkov.movieland.web.util.MovieRequestParam;
 import com.aryzhkov.movieland.web.util.SortOrder;
 import com.aryzhkov.movieland.service.MovieService;
+import com.aryzhkov.movieland.web.util.UserRole;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -70,8 +71,8 @@ public class MovieControllerTest {
         fullMovie.setGenres(Arrays.asList(new Genre(1, "драма"), new Genre(6, "биография"),
                 new Genre(7, "комедия")));
         fullMovie.setReviews(Arrays.asList(new Review(9, "Комментарий1",
-                new User(10, "Амелия Кэннеди","")), new Review(8, "Комментарий2",
-                new User(12, "Джесси Паттерсон",""))));
+                new User(10, "Амелия Кэннеди","", UserRole.USER), new Movie()), new Review(8, "Комментарий2",
+                new User(12, "Джесси Паттерсон","", UserRole.USER), new Movie())));
     }
 
     @Test

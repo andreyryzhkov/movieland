@@ -10,4 +10,6 @@ public interface SecurityService {
     Optional<Session> login(Credential credential);
 
     void logout(String token);
+
+    Optional<Session> getSession(String token);
 }
