@@ -57,6 +57,7 @@ public class SecurityServiceImpl implements SecurityService {
     public Optional<Session> getSession(String token) {
         Session session = sessions.get(token);
         if (isSessionExpired(session)) {
+            sessions.remove(token);
             return Optional.empty();
         }
         return Optional.of(session);
