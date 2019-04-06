@@ -13,6 +13,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.PreparedStatement;
 import java.util.List;
@@ -42,6 +43,13 @@ public class JdbcMovieDao implements MovieDao {
 
     private static final String INSERT_GENRE_MAP = "insert into movieland.movie_genre_map(movie_id, genre_id) " +
             "values (?,?)";
+
+    private static final String UPDATE_MOVIE = "update movieland.movie set russian_name = ?, native_name = ?, " +
+            "picture_path = ? where movie_id = ?";
+
+    private static final String DELETE_COUNTRY_MAP = "delete from movieland.movie_country_map where movie_id = ?";
+
+    private static final String DELETE_GENRE_MAP = "delete from movieland.movie_genre_map where movie_id = ?";
 
     private static final MovieRowMapper MOVIE_ROW_MAPPER = new MovieRowMapper();
     private static final MovieFullRowMapper MOVIE_FULL_ROW_MAPPER = new MovieFullRowMapper();
@@ -78,6 +86,7 @@ public class JdbcMovieDao implements MovieDao {
         return jdbcTemplate.queryForObject(SELECT_BY_ID, MOVIE_FULL_ROW_MAPPER, id);
     }
 
+    @Transactional
     @Override
     public Movie add(Movie movie, int[] countryIds, int[] genreIds) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -107,5 +116,21 @@ public class JdbcMovieDao implements MovieDao {
         movie.setId(movieId);
 
         return movie;
+    }
+
+    @Transactional
+    @Override
+    public void edit(Movie movie, int[] countryIds, int[] genreIds) {
+        jdbcTemplate.update(UPDATE_MOVIE, movie.getNameRussian(), movie.getNameNative(), movie.getPicturePath(), movie.getId());
+
+        jdbcTemplate.update(DELETE_COUNTRY_MAP, movie.getId());
+        for (int countryId : countryIds) {
+            jdbcTemplate.update(INSERT_COUNTRY_MAP, movie.getId(), countryId);
+        }
+
+        jdbcTemplate.update(DELETE_GENRE_MAP, movie.getId());
+        for (int genreId : genreIds) {
+            jdbcTemplate.update(INSERT_GENRE_MAP, movie.getId(), genreId);
+        }
     }
 }

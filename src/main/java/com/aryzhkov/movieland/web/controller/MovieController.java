@@ -74,6 +74,14 @@ public class MovieController {
         movieService.add(movie, modifyMovieDto.getCountries(), modifyMovieDto.getGenres());
     }
 
+    @ProtectedBy(UserRole.ADMIN)
+    @PutMapping(path = "/{movieId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public void edit(@PathVariable int movieId, @RequestBody ModifyMovieDto modifyMovieDto) {
+        Movie movie = movieDTOConverter.convert(modifyMovieDto);
+        movie.setId(movieId);
+        movieService.edit(movie, modifyMovieDto.getCountries(), modifyMovieDto.getGenres());
+    }
+
     @InitBinder
     public void initBinder(WebDataBinder dataBinder) {
         dataBinder.registerCustomEditor(SortOrder.class, new SortOrderConverter());

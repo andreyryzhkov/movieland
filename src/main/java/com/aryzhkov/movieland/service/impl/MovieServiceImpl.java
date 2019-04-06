@@ -71,4 +71,9 @@ public class MovieServiceImpl implements MovieService {
     public Movie add(Movie movie, int[] countryIds, int[] genreIds) {
         return movieDao.add(movie, countryIds, genreIds);
     }
+
+    @Override
+    public void edit(Movie movie, int[] countryIds, int[] genreIds) {
+        movieDao.edit(movie, countryIds, genreIds);
+    }
 }

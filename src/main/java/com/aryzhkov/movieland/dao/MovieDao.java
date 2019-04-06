@@ -20,4 +20,6 @@ public interface MovieDao {
     Movie getById(int id);
 
     Movie add(Movie movie, int[] countryIds, int[] genreIds);
+
+    void edit(Movie movie, int[] countryIds, int[] genreIds);
 }
