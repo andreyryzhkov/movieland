@@ -21,4 +21,6 @@ public interface MovieService {
     Movie getById(int id);
 
     Movie getById(int id, Currency currency);
+
+    Movie add(Movie movie, int[] countryIds, int[] genreIds);
 }

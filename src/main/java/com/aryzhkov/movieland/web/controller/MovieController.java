@@ -1,6 +1,8 @@
 package com.aryzhkov.movieland.web.controller;
 
 import com.aryzhkov.movieland.entity.Movie;
+import com.aryzhkov.movieland.web.auth.annotation.ProtectedBy;
+import com.aryzhkov.movieland.web.dto.ModifyMovieDto;
 import com.aryzhkov.movieland.web.util.*;
 import com.aryzhkov.movieland.web.dto.MovieDto;
 import com.aryzhkov.movieland.service.MovieService;
@@ -63,6 +65,13 @@ public class MovieController {
         }
 
         return movieService.getById(movieId);
+    }
+
+    @ProtectedBy(UserRole.ADMIN)
+    @PostMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public void add(@RequestBody ModifyMovieDto modifyMovieDto) {
+        Movie movie = movieDTOConverter.convert(modifyMovieDto);
+        movieService.add(movie, modifyMovieDto.getCountries(), modifyMovieDto.getGenres());
     }
 
     @InitBinder

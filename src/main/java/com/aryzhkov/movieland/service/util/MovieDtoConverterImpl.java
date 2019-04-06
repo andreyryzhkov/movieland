@@ -1,6 +1,7 @@
 package com.aryzhkov.movieland.service.util;
 
 import com.aryzhkov.movieland.entity.Movie;
+import com.aryzhkov.movieland.web.dto.ModifyMovieDto;
 import com.aryzhkov.movieland.web.dto.MovieDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -26,5 +27,10 @@ public class MovieDtoConverterImpl implements MovieDtoConverter {
         List<MovieDto> movieDtos = modelMapper.map(movies, targetListType);
 
         return movieDtos;
+    }
+
+    @Override
+    public Movie convert(ModifyMovieDto modifyMovieDto) {
+        return modelMapper.map(modifyMovieDto, Movie.class);
     }
 }

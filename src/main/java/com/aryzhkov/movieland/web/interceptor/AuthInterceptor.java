@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Optional;
 
 @Service
@@ -32,7 +33,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
                 Optional<Session> session = securityService.getSession(token);
                 if (session.isPresent()) {
                     User user = session.get().getUser();
-                    if (method.getAnnotation(ProtectedBy.class).value() == user.getUserRole()) {
+                    if (Arrays.asList(method.getAnnotation(ProtectedBy.class).value()).contains(user.getUserRole())) {
                         UserHolder.setCurrentUser(user);
                         return true;
                     }

@@ -18,7 +18,7 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
-    @ProtectedBy(UserRole.USER)
+    @ProtectedBy({UserRole.USER, UserRole.ADMIN})
     @PostMapping(path = "/review")
     public void addReview(@RequestBody ReviewDto reviewDto) {
 
