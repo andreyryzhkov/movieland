@@ -2,7 +2,8 @@ package com.aryzhkov.movieland.web.util;
 
 public enum UserRole {
 
-    USER("USER");
+    USER("USER"),
+    ADMIN("ADMIN");
 
     private final String role;
 

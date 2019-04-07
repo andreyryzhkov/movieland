@@ -18,4 +18,8 @@ public interface MovieDao {
     List<Movie> getByGenre(int id, MovieRequestParam movieRequestParam);
 
     Movie getById(int id);
+
+    Movie add(Movie movie, int[] countryIds, int[] genreIds);
+
+    Movie edit(Movie movie, int[] countryIds, int[] genreIds);
 }
