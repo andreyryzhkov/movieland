@@ -1,0 +1,79 @@
+package com.aryzhkov.movieland.service.cache;
+
+import com.aryzhkov.movieland.entity.Movie;
+import com.aryzhkov.movieland.service.MovieEnrichmentService;
+import com.aryzhkov.movieland.service.MovieService;
+import com.aryzhkov.movieland.web.util.Currency;
+import com.aryzhkov.movieland.web.util.MovieRequestParam;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+
+@Service
+@RequiredArgsConstructor
+public class CacheMovieService implements MovieService {
+
+    private final MovieService movieService;
+
+    private final MovieEnrichmentService movieEnrichmentService;
+
+    private ConcurrentHashMap<Integer, Movie> cacheMovies = new ConcurrentHashMap<>();
+
+    @Override
+    public List<Movie> getAll() {
+        return movieService.getAll();
+    }
+
+    @Override
+    public List<Movie> getRandom() {
+        return movieService.getRandom();
+    }
+
+    @Override
+    public List<Movie> getByGenre(int id) {
+        return movieService.getByGenre(id);
+    }
+
+    @Override
+    public List<Movie> getAll(MovieRequestParam movieRequestParam) {
+        return movieService.getAll(movieRequestParam);
+    }
+
+    @Override
+    public List<Movie> getByGenre(int id, MovieRequestParam movieRequestParam) {
+        return movieService.getByGenre(id, movieRequestParam);
+    }
+
+    @Override
+    public Movie getById(int id) {
+        Movie movie = cacheMovies.get(id);
+        if (movie == null) {
+            movie = movieService.getById(id);
+            cacheMovies.put(id, movie);
+        }
+        return movie;
+    }
+
+    @Override
+    public Movie getById(int id, Currency currency) {
+        return movieService.getById(id, currency);
+    }
+
+    @Override
+    public Movie add(Movie movie, int[] countryIds, int[] genreIds) {
+        Movie cacheMovie = movieService.add(movie, countryIds, genreIds);
+        movieEnrichmentService.enrich(cacheMovie);
+        cacheMovies.put(movie.getId(), cacheMovie);
+
+        return cacheMovie;
+    }
+
+    @Override
+    public void edit(Movie movie, int[] countryIds, int[] genreIds) {
+        Movie cacheMovie = movieService.edit(movie, countryIds, genreIds);
+        movieEnrichmentService.enrich(cacheMovie);
+        cacheMovies.put(movie.getId(), cacheMovie);
+    }
+}
