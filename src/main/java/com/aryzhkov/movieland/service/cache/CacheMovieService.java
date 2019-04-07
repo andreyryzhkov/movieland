@@ -52,14 +52,15 @@ public class CacheMovieService implements MovieService {
     @Override
     public Movie getById(int id) {
         SoftReference<Movie> movieSoftReference = cacheMovies.get(id);
-        Movie movie = movieSoftReference.get();
 
-        if (movie == null) {
-            movie = movieService.getById(id);
-            cacheMovies.put(id, new SoftReference<>(movie));
+        if (movieSoftReference != null) {
+            return new Movie(movieSoftReference.get());
         }
 
-        return new Movie(movie);
+        Movie cacheMovie = movieService.getById(id);
+        cacheMovies.put(id, new SoftReference<>(cacheMovie));
+
+        return new Movie(cacheMovie);
     }
 
     @Override
@@ -70,7 +71,6 @@ public class CacheMovieService implements MovieService {
     @Override
     public Movie add(Movie movie, int[] countryIds, int[] genreIds) {
         Movie cacheMovie = movieService.add(movie, countryIds, genreIds);
-        movieEnrichmentService.enrich(cacheMovie);
         cacheMovies.put(movie.getId(), new SoftReference<>(cacheMovie));
 
         return cacheMovie;
@@ -79,7 +79,6 @@ public class CacheMovieService implements MovieService {
     @Override
     public Movie edit(Movie movie, int[] countryIds, int[] genreIds) {
         Movie cacheMovie = movieService.edit(movie, countryIds, genreIds);
-        movieEnrichmentService.enrich(cacheMovie);
         cacheMovies.put(movie.getId(), new SoftReference<>(cacheMovie));
 
         return cacheMovie;
