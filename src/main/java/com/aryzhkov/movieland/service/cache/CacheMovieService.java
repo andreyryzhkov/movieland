@@ -6,11 +6,14 @@ import com.aryzhkov.movieland.service.MovieService;
 import com.aryzhkov.movieland.web.util.Currency;
 import com.aryzhkov.movieland.web.util.MovieRequestParam;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
+import java.lang.ref.SoftReference;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Primary
 @Service
 @RequiredArgsConstructor
 public class CacheMovieService implements MovieService {
@@ -19,7 +22,7 @@ public class CacheMovieService implements MovieService {
 
     private final MovieEnrichmentService movieEnrichmentService;
 
-    private ConcurrentHashMap<Integer, Movie> cacheMovies = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<Integer, SoftReference<Movie>> cacheMovies = new ConcurrentHashMap<>();
 
     @Override
     public List<Movie> getAll() {
@@ -48,12 +51,15 @@ public class CacheMovieService implements MovieService {
 
     @Override
     public Movie getById(int id) {
-        Movie movie = cacheMovies.get(id);
+        SoftReference<Movie> movieSoftReference = cacheMovies.get(id);
+        Movie movie = movieSoftReference.get();
+
         if (movie == null) {
             movie = movieService.getById(id);
-            cacheMovies.put(id, movie);
+            cacheMovies.put(id, new SoftReference<>(movie));
         }
-        return movie;
+
+        return new Movie(movie);
     }
 
     @Override
@@ -65,15 +71,17 @@ public class CacheMovieService implements MovieService {
     public Movie add(Movie movie, int[] countryIds, int[] genreIds) {
         Movie cacheMovie = movieService.add(movie, countryIds, genreIds);
         movieEnrichmentService.enrich(cacheMovie);
-        cacheMovies.put(movie.getId(), cacheMovie);
+        cacheMovies.put(movie.getId(), new SoftReference<>(cacheMovie));
 
         return cacheMovie;
     }
 
     @Override
-    public void edit(Movie movie, int[] countryIds, int[] genreIds) {
+    public Movie edit(Movie movie, int[] countryIds, int[] genreIds) {
         Movie cacheMovie = movieService.edit(movie, countryIds, genreIds);
         movieEnrichmentService.enrich(cacheMovie);
-        cacheMovies.put(movie.getId(), cacheMovie);
+        cacheMovies.put(movie.getId(), new SoftReference<>(cacheMovie));
+
+        return cacheMovie;
     }
 }
