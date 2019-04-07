@@ -21,5 +21,5 @@ public interface MovieDao {
 
     Movie add(Movie movie, int[] countryIds, int[] genreIds);
 
-    void edit(Movie movie, int[] countryIds, int[] genreIds);
+    Movie edit(Movie movie, int[] countryIds, int[] genreIds);
 }

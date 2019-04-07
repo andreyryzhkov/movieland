@@ -120,7 +120,7 @@ public class JdbcMovieDao implements MovieDao {
 
     @Transactional
     @Override
-    public void edit(Movie movie, int[] countryIds, int[] genreIds) {
+    public Movie edit(Movie movie, int[] countryIds, int[] genreIds) {
         jdbcTemplate.update(UPDATE_MOVIE, movie.getNameRussian(), movie.getNameNative(), movie.getPicturePath(), movie.getId());
 
         jdbcTemplate.update(DELETE_COUNTRY_MAP, movie.getId());
@@ -132,5 +132,6 @@ public class JdbcMovieDao implements MovieDao {
         for (int genreId : genreIds) {
             jdbcTemplate.update(INSERT_GENRE_MAP, movie.getId(), genreId);
         }
+        return movie;
     }
 }
