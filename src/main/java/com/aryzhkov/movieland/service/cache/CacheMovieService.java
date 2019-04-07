@@ -1,8 +1,8 @@
 package com.aryzhkov.movieland.service.cache;
 
 import com.aryzhkov.movieland.entity.Movie;
-import com.aryzhkov.movieland.service.MovieEnrichmentService;
 import com.aryzhkov.movieland.service.MovieService;
+import com.aryzhkov.movieland.service.impl.MovieServiceImpl;
 import com.aryzhkov.movieland.web.util.Currency;
 import com.aryzhkov.movieland.web.util.MovieRequestParam;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +19,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class CacheMovieService implements MovieService {
 
     private final MovieService movieService;
-
-    private final MovieEnrichmentService movieEnrichmentService;
 
     private ConcurrentHashMap<Integer, SoftReference<Movie>> cacheMovies = new ConcurrentHashMap<>();
 
