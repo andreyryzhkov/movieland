@@ -73,7 +73,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public void edit(Movie movie, int[] countryIds, int[] genreIds) {
-        movieDao.edit(movie, countryIds, genreIds);
+    public Movie edit(Movie movie, int[] countryIds, int[] genreIds) {
+        return movieDao.edit(movie, countryIds, genreIds);
     }
 }
